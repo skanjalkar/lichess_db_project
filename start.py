@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from models import *
 import json
-
+from flask import jsonify
 
 @app.route("/")
 def hello():
@@ -16,7 +16,7 @@ def gm_list():
     for user in users:
         user_data = [user.__repr__()]
         json_data.append(user_data)
-    
+
     return json_data
 
 @app.route("/draw%")
@@ -108,6 +108,49 @@ def findWin(name):
     }
 
     return win_percentage
+
+@app.route("/getNumChecks", methods = ["POST"])
+def checkCount():
+    opening_start=request.form["opening"],
+    moveCheck=request.form["moveCheck"],
+    results = (
+    db.session.query(
+        Game.white_player_name,
+        Game.black_player_name,
+        Game.lichess_url,
+        Game.opening,
+        db.func.count('*').label('NumChecks')
+    )
+    .join(Moves, Game.lichess_url == Moves.lichess_url)
+    .filter(
+        Game.opening.like('%Sicilian Defense%'),
+            or_(
+                Moves.white_move.like('%+'),
+                Moves.black_move.like('%+')
+            )
+    ).group_by(
+        Game.white_player_name,
+        Game.black_player_name,
+        Game.lichess_url,
+        Game.opening
+    )
+    .distinct()
+    .all()
+    )
+
+    data = []
+    for row in results:
+        row_data = {
+            "white_player_name": row.white_player_name,
+            "black_player_name": row.black_player_name,
+            "lichess_url": row.lichess_url,
+            "opening": row.opening,
+            "NumChecks": row.NumChecks
+        }
+
+        data.append(row_data)
+
+    return jsonify(data)
 
 
 @app.route("/user/<string:name>")
