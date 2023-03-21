@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import chess.pgn
 import pry
+import json
 # from helper_functions import convert_sec_to_min, compareTime, pretty_print
 from tabulate import tabulate
 # create the extension
@@ -14,20 +15,25 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db.init_app(app)
 
 class Players(db.Model):
-    headers = ['Name', 'Elo', 'Title', 'Last Active Date', 'Last Active Time']
+    # headers = ['Name', 'Elo', 'Title', 'Last Active Date', 'Last Active Time']
 
     name = db.Column(db.String(255), primary_key = True)
     player_elo = db.Column(db.Integer)
     title = db.Column(db.String(255), nullable = True)
     last_active_date = db.Column(db.String)
     last_active_time = db.Column(db.String)
-    ### LAST ACTIVE TIME
 
-    def __repr__(self) -> str:
-        # pretty_print(self)
-        table = [[self.name, self.player_elo, self.title, self.last_active_date, self.last_active_time]]
-        # print()
-        return tabulate(table, headers=self.headers)
+    def __repr__(self):
+        table = {
+            'Name': self.name,
+            'Player Elo': self.player_elo,
+            'Title': self.title,
+            'Last Active Date': self.last_active_date,
+            'Last Active Time': self.last_active_time
+            }
+
+        # return tabulate(table, headers=self.headers)
+        return table
         # return f'Player: {self.name}, Elo: {self.player_elo}, Title: {self.title}, Last active date, time: {self.last_active_date},  {self.last_active_time}'
 
 class Event(db.Model):
@@ -55,7 +61,6 @@ class Game(db.Model):
     time_control = db.Column(db.String(255))
     utc_date = db.Column(db.String)
     utc_time = db.Column(db.String)
-    # moves = db.Column(db.String(2048))
 
     event = db.relationship('Event', backref = 'games')
     white_player = db.relationship('Players', foreign_keys = [white_player_name], backref = 'games_as_white')

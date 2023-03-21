@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from models import *
+import json
 
 
 @app.route("/")
@@ -11,9 +12,12 @@ def hello():
 @app.route("/gmlist")
 def gm_list():
     users = db.session.execute(db.select(Players).filter_by(title="GM").order_by(Players.name)).scalars()
+    json_data = []
     for user in users:
-        print(user)
-    return str(user)
+        user_data = [user.__repr__()]
+        json_data.append(user_data)
+    
+    return json_data
 
 @app.route("/draw%")
 def draw():
@@ -48,8 +52,6 @@ def user_create():
 def findWinPost():
     if request.method == "POST":
         name = request.form["name"]
-        print(name)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         win_percentage = db.session.query(
         Game.white_player_name,
         Players.last_active_date,
@@ -115,16 +117,7 @@ def user_detail(name):
     print(user)
     return render_template("user/detail.html", name=user.name)
 
-# @app.route("/user/<int:id>/delete", methods=["GET", "POST"])
-# def user_delete(id):
-#     user = db.get_or_404(User, id)
 
-#     # if request.method == "POST":
-#     db.session.delete(user)
-#     db.session.commit()
-#         # return redirect(url_for("user_list"))
-
-#     return render_template("user/delete.html", name=user.username)
 
 if __name__ == "__main__":
     app.run()
