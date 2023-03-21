@@ -23,15 +23,15 @@ def gm_list():
 def draw():
     draw = Game.query.filter_by(result="1/2-1/2").count()
     total_games = Game.query.count()
-    print(draw * 100 / total_games)
+    return str(draw * 100 / total_games)
 
 @app.route("/white/win%")
 def white_win():
     win = Game.query.filter_by(result="1-0").count()
     total_games = Game.query.count()
-    print(win)
-    print(total_games)
-    print(win * 100 / total_games)
+    # print(win)
+    # print(total_games)
+    return str(win * 100 / total_games)
 
 @app.route("/users/create", methods=["GET", "POST"])
 def user_create():
