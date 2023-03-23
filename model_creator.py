@@ -4,10 +4,16 @@ import chess.pgn
 import pry
 from helper_functions import convert_sec_to_min, compareTime
 from models import Players, Moves, Game, Event, db, app
-
+import argparse
 
 with app.app_context():
-    pgn = open("./../lichess_elite_2020-06.pgn")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--path', type=str, default="./../lichess_elite_2020-06.pgn", help="The path to your pgn")
+
+    args = parser.parse_args()
+    path = args.path
+
+    pgn = open(path)
     player_count = 1
     event_count = 1
     # while (True):
