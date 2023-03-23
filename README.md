@@ -11,7 +11,7 @@ PGN stands for Portable Game Notation, and it is a standard format for recording
 
 3. This is the naive ERD I came up with for the database, it still needs to add more complexity, but for now I think it is decently complicated.
 
-![ERD Diagram]('./LichessERD.png')
+![ERD Diagram]('https://github.com/zen1405/lichess_db_project/blob/main/LichessERD.png')
 
 
 3. How to run the code?
