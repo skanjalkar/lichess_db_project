@@ -29,8 +29,6 @@ def draw():
 def white_win():
     win = Game.query.filter_by(result="1-0").count()
     total_games = Game.query.count()
-    # print(win)
-    # print(total_games)
     return str(win * 100 / total_games)
 
 @app.route("/users/create", methods=["GET", "POST"])
@@ -46,7 +44,7 @@ def user_create():
         db.session.commit()
         return str(user)
 
-    return render_template("index.html", utc_dt = "HLSOEDKLFOSIDjfoi")
+    return render_template("index.html", utc_dt = "User Created!")
 
 @app.route("/user/win/white", methods=["POST"])
 def findWinPost():
@@ -151,15 +149,6 @@ def checkCount():
         data.append(row_data)
 
     return jsonify(data)
-
-
-@app.route("/user/<string:name>")
-def user_detail(name):
-    print(name)
-    user = db.get_or_404(Players, name)
-    print(user)
-    return render_template("user/detail.html", name=user.name)
-
 
 
 if __name__ == "__main__":
