@@ -14,7 +14,7 @@ PGN stands for Portable Game Notation, and it is a standard format for recording
 ![ERD Diagram](https://github.com/zen1405/lichess_db_project/blob/main/images/LichessERD.png)
 
 
-3. How to run the code?
+4. How to run the code?
 
 To run the Lichess database code, you will need to have Python 3 installed on your computer, as well as Flask and SQLAlchemy libraries. Once you have these installed, you can clone the repository to your local machine and navigate to the root directory. Then in order to install the dependenceis you can do the follwing.
 
