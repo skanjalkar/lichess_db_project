@@ -9,6 +9,11 @@ Lichess is a free, open-source chess server that allows users to play chess game
 
 PGN stands for Portable Game Notation, and it is a standard format for recording chess games. PGN files can be used to record games played online, in-person, or in chess software, and they can be easily shared and analyzed. PGN files contain information about the moves played, the players, the date and location of the game, and other metadata. PGN files can be opened and analyzed in many chess software programs, as well as online tools. The PGN I used can be found [here](https://database.lichess.org/).
 
+3. This is the naive ERD I came up with for the database, it still needs to add more complexity, but for now I think it is decently complicated.
+
+![ERD Diagram]('./LichessERD.png')
+
+
 3. How to run the code?
 
 To run the Lichess database code, you will need to have Python 3 installed on your computer, as well as Flask and SQLAlchemy libraries. Once you have these installed, you can clone the repository to your local machine and navigate to the root directory. Then in order to install the dependenceis you can do the follwing.
